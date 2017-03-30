@@ -45,7 +45,9 @@
         android:layout_alignStart="@+id/btnLogin"
         android:layout_below="@+id/btnLogin"
         android:layout_marginTop="19dp"
-        android:onClick="OnSend"
-        android:text="Send" />
+        android:onClick="OnRegis"
+        android:text="Register" />
+
+
 
 </RelativeLayout>

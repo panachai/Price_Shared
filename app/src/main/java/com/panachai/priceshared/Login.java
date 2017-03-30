@@ -18,7 +18,7 @@ import java.io.IOException;
  * Created by KILLERCON on 3/30/2017.
  */
 
-public class BackgroundWorker extends AsyncTask<String, Void, String> {
+public class Login extends AsyncTask<String, Void, String> {
 
     private Context context;
     private AlertDialog alertDialog;
@@ -26,7 +26,7 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
     private final OkHttpClient okHttpClient = new OkHttpClient();
 
 
-    public BackgroundWorker(Context ctx) {
+    public Login(Context ctx) {
         context = ctx;
     }
 
@@ -58,17 +58,13 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
             if (response.isEmpty()) {
                 Log.d("Response empty : ", "null");
-                return "notPass";
+                return "notPass : "+ response;
             } else {
                 //ว่าจะใส่ intend ตรงนี้เลย
-                return "Pass"; //response;
-
+                return "Pass : "+response; //response;
             }
-
-
         } else {
             return "no type login";
         }

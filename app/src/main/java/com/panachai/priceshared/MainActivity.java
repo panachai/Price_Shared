@@ -1,5 +1,6 @@
 package com.panachai.priceshared;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,17 +25,23 @@ public class MainActivity extends AppCompatActivity {
         String password = PasswordEt.getText().toString();
         String type = "login";
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type, username, password);
+        Login login = new Login(this);
+        login.execute(type, username, password);
     }
 
-    public void OnSend(View view) {
+    public void OnRegis(View view) {
+        /*
         String username = UsernameEt.getText().toString();
         String password = PasswordEt.getText().toString();
-        String type = "login";
+        Register register = new Register(this);
+        register.execute(username, password);
+        */
 
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type, username, password);
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+
+
+
 
     }
 
