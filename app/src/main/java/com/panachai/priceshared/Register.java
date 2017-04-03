@@ -13,6 +13,8 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by KILLERCON on 3/30/2017.
@@ -49,7 +51,7 @@ public class Register extends AsyncTask<String, Void, String> {
         RequestBody formBody = new FormEncodingBuilder()
                 .add("cusName", name)
                 .add("cusUser", username)
-                .add("cusPass", password)
+                .add("cusPass", md5(password))
                 .add("cusEmail", email)
                 .build();
         String response = null;
@@ -97,6 +99,25 @@ public class Register extends AsyncTask<String, Void, String> {
 
             return response.body().string();
         }
+    }
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 

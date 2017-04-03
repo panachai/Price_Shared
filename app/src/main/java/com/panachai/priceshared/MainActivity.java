@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         UsernameEt = (EditText) findViewById(R.id.etUserName);
         PasswordEt = (EditText) findViewById(R.id.etPassword);
 
@@ -25,8 +24,13 @@ public class MainActivity extends AppCompatActivity {
         String password = PasswordEt.getText().toString();
         String type = "login";
 
+        /*
         Login login = new Login(this);
-        login.execute(type, username, password);
+        login.execute(type, username, password);*/
+
+        DBHelper dbhelper = new DBHelper(this);
+        dbhelper.execute(type, username, password);
+
     }
 
     public void OnRegis(View view) {
@@ -39,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
-
-
 
 
     }

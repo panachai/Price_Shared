@@ -13,6 +13,8 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by KILLERCON on 3/30/2017.
@@ -48,9 +50,12 @@ public class Login extends AsyncTask<String, Void, String> {
             postHttp http = new postHttp();
             RequestBody formBody = new FormEncodingBuilder()
                     .add("cusUser", name)
-                    .add("cusPass", pass)
+                    .add("cusPass", md5(pass))
                     .build();
             String response = null;
+
+            System.out.println("pass md5 : "+md5(pass));
+
             try {
                 response = http.run("http://10.0.2.2/Webservice/check_login.php", formBody); //http://10.0.2.2/Webservice/postString.php
                 Log.d("Response : ", response);
@@ -94,6 +99,27 @@ public class Login extends AsyncTask<String, Void, String> {
             return response.body().string();
         }
     }
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
 
 
 }

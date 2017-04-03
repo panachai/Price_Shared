@@ -1,12 +1,13 @@
 package com.panachai.priceshared;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText UsernameEt,NameEt,EmailEt,PassEt;
+    EditText UsernameEt, NameEt, EmailEt, PassEt;
 
 
     @Override
@@ -22,13 +23,23 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void OnRegister(View view) {
-        String username = UsernameEt.getText().toString();
+        String type = "register";
         String name = NameEt.getText().toString();
-        String email = EmailEt.getText().toString();
         String password = PassEt.getText().toString();
+        String username = UsernameEt.getText().toString();
+        String email = EmailEt.getText().toString();
 
+        /*
         Register register = new Register(this);
-        register.execute(username, name, email, password);
+        register.execute(type, name,username, password, email);
+        */
+        DBHelper dbhelper = new DBHelper(this);
+        dbhelper.execute(type, name, username, password, email);
+
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
     }
 
 
