@@ -6,20 +6,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class RegisterActivity extends AppCompatActivity {
+public class Register_Activity extends AppCompatActivity {
     EditText UsernameEt, NameEt, EmailEt, PassEt;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_old);
+        setContentView(R.layout.activity_register);
 
         UsernameEt = (EditText) findViewById(R.id.etUserName);
         NameEt = (EditText) findViewById(R.id.etName);
         EmailEt = (EditText) findViewById(R.id.etEmail);
         PassEt = (EditText) findViewById(R.id.etPass);
-
     }
 
     public void OnRegister(View view) {
@@ -37,10 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
         dbhelper.execute(type, name, username, password, email);
 
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Login_Activity.class);
         startActivity(intent);
 
     }
-
-
 }
