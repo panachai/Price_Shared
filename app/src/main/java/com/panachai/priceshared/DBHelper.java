@@ -16,15 +16,14 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by KILLERCON on 4/4/2017.
- */
 
 public class DBHelper extends AsyncTask<String, Void, String> {
+
     private Context context;
     private AlertDialog alertDialog;
     private Gson gson = new Gson();
     private final OkHttpClient okHttpClient = new OkHttpClient();
+    private final String url = "10.0.2.2"; //"10.0.2.2" //consolesaleth.esy.es ใช้ไม่ได้
 
 
     public DBHelper(Context ctx) {
@@ -116,7 +115,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         System.out.println("pass md5 : " + md5(pass));
 
         try {
-            response = http.run("http://10.0.2.2/Webservice/check_login.php", formBody);
+            response = http.run("http://"+url+"/Webservice/check_login.php", formBody);
             //http://10.0.2.2/Webservice/postString.php
             Log.d("Response : ", response);
         } catch (IOException e) {
@@ -143,7 +142,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         String response = null;
 
         try {
-            response = http.run("http://10.0.2.2/Webservice/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
+            response = http.run("http://"+url+"/Webservice/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
             Log.d("Response : ", response);
         } catch (IOException e) {
 // TODO Auto-generated catch block

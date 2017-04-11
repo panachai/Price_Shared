@@ -35,8 +35,8 @@ public class Register_Activity extends AppCompatActivity {
         dbhelper.execute(type, name, username, password, email);
 
 
-        Intent intent = new Intent(this, Login_Activity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, Login_Activity.class);
+        //startActivity(intent);
 
     }
 }
