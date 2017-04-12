@@ -2,6 +2,8 @@ package com.panachai.priceshared;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -23,13 +25,13 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     private AlertDialog alertDialog;
     private Gson gson = new Gson();
     private final OkHttpClient okHttpClient = new OkHttpClient();
-    private final String url = "10.0.2.2"; //"10.0.2.2" //consolesaleth.esy.es ใช้ไม่ได้
+    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
+    private String resulttype;  //ไว้ใช้ return instand
 
     public DBHelper(Context ctx) {
         context = ctx;
     }
-
 
     @Override
     protected void onPreExecute() {
@@ -60,11 +62,34 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         }
     }
 
-
     @Override
     protected void onPostExecute(String result) {
+
         alertDialog.setMessage(result);
         alertDialog.show();
+
+        String[] resultsplit = result.split(":");
+        resulttype = resultsplit[0];
+
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+
+            public void onCancel(DialogInterface dialog) {
+
+                if (resulttype.equals("register")) {
+                    //to Register
+                    Intent intent = new Intent(context, Login_Activity.class);
+                    context.startActivity(intent);
+                } else if (resulttype.equals("login")) {
+                    Log.d("login", "นะจ๊ะ");
+                }
+
+                resulttype = "";    //เคลียร์ค่า type ทุกครั้ง
+
+            }
+
+        });
+
     }
 
     @Override
@@ -115,7 +140,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         System.out.println("pass md5 : " + md5(pass));
 
         try {
-            response = http.run("http://"+url+"/Webservice/check_login.php", formBody);
+            response = http.run("http://" + url + "/check_login.php", formBody); //
             //http://10.0.2.2/Webservice/postString.php
             Log.d("Response : ", response);
         } catch (IOException e) {
@@ -124,10 +149,10 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         }
         if (response.isEmpty()) {
             Log.d("Response empty : ", "null");
-            return "notPass : " + response;
+            return "login:" + "notPass:" + response;    //login (type)
         } else {
             //ว่าจะใส่ intend ตรงนี้เลย
-            return "Pass : " + response; //response;
+            return "login:" + "Pass:" + response; //response;
         }
     }
 
@@ -142,23 +167,23 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         String response = null;
 
         try {
-            response = http.run("http://"+url+"/Webservice/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
+            response = http.run("http://" + url + "/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
             Log.d("Response : ", response);
         } catch (IOException e) {
 // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return response;
-        /*
+        //return response;
+
         if (response.isEmpty()) {
             Log.d("Response empty : ", "null");
-            return "notPass";
+            return "register:" + "NotPass:" + response;     //register (type)
         } else {
             //ว่าจะใส่ intend ตรงนี้เลย
-            return "Pass"; //response;
+            return "register:" + "Pass:" + response; //response;
         }
-        */
+
     }
 
 
