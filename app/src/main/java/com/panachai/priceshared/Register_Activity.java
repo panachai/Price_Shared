@@ -31,6 +31,7 @@ public class Register_Activity extends AppCompatActivity {
         Register register = new Register(this);
         register.execute(type, name,username, password, email);
         */
+
         DBHelper dbhelper = new DBHelper(this);
         dbhelper.execute(type, name, username, password, email);
 

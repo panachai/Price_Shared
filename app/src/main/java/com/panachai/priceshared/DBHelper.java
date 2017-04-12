@@ -82,6 +82,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                     context.startActivity(intent);
                 } else if (resulttype.equals("login")) {
                     Log.d("login", "นะจ๊ะ");
+                    Intent intent = new Intent(context, MainActivity.class);
+                    context.startActivity(intent);
                 }
 
                 resulttype = "";    //เคลียร์ค่า type ทุกครั้ง
