@@ -111,7 +111,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             return response.body().string();
         }
     }
-
+//ไม่ได้ใช้แล้ว ใช้ผ่าน php แทน
     public String md5(String s) {
         try {
             // Create MD5 Hash
@@ -135,11 +135,12 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         postHttp http = new postHttp();
         RequestBody formBody = new FormEncodingBuilder()
                 .add("cusUser", name)
-                .add("cusPass", md5(pass))
+                .add("cusPass", pass)
+                .add("cusType","0")
                 .build();
         String response = null;
 
-        System.out.println("pass md5 : " + md5(pass));
+        System.out.println("pass : " + pass);
 
         try {
             response = http.run("http://" + url + "/check_login.php", formBody); //
@@ -163,7 +164,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         RequestBody formBody = new FormEncodingBuilder()
                 .add("cusName", name)
                 .add("cusUser", username)
-                .add("cusPass", md5(password))
+                .add("cusPass", password)
                 .add("cusEmail", email)
                 .build();
         String response = null;
