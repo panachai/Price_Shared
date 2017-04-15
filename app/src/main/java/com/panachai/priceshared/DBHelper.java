@@ -71,6 +71,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         String[] resultsplit = result.split(":");
         resulttype = resultsplit[0];
 
+        //ใช้เวลา dialog ขึ้นแล้วกด cancel
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 
 
@@ -189,5 +190,35 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
     }
 
+    //ยังใช้ไม่ได้ รอทำ listview by database
+    public String selectItemCategory(String name, String username, String password, String email) {
+        postHttp http = new postHttp();
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("cusName", name)
+                .add("cusUser", username)
+                .add("cusPass", password)
+                .add("cusEmail", email)
+                .build();
+        String response = null;
+
+        try {
+            response = http.run("http://" + url + "/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
+            Log.d("Response : ", response);
+        } catch (IOException e) {
+// TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        //return response;
+
+        if (response.isEmpty()) {
+            Log.d("Response empty : ", "null");
+            return "register:" + "NotPass:" + response;     //register (type)
+        } else {
+            //ว่าจะใส่ intend ตรงนี้เลย
+            return "register:" + "Pass:" + response; //response;
+        }
+
+    }
 
 }

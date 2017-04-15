@@ -1,12 +1,17 @@
 package com.panachai.priceshared;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 public class Login_Activity extends AppCompatActivity {
+
     EditText UsernameEt, PasswordEt;
 
     @Override
@@ -19,6 +24,7 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     public void OnLogin(View view) {
+
         String username = UsernameEt.getText().toString();
         String password = PasswordEt.getText().toString();
         String type = "login";
