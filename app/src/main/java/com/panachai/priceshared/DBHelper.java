@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -15,8 +16,10 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 
 
 public class DBHelper extends AsyncTask<String, Void, String> {
@@ -146,7 +149,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         try {
             response = http.run("http://" + url + "/check_login.php", formBody); //
             //http://10.0.2.2/Webservice/postString.php
-            Log.d("Response : ", response);
+            //Log.d("Response : ", response);
         } catch (IOException e) {
 // TODO Auto-generated catch block
             e.printStackTrace();
@@ -172,9 +175,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         try {
             response = http.run("http://" + url + "/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
-            Log.d("Response : ", response);
+            //Log.d("Response : ", response);
         } catch (IOException e) {
-// TODO Auto-generated catch block
+
             e.printStackTrace();
         }
 
@@ -190,33 +193,38 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
     }
 
-    //ยังใช้ไม่ได้ รอทำ listview by database
-    public String selectItemCategory(String name, String username, String password, String email) {
-        postHttp http = new postHttp();
-        RequestBody formBody = new FormEncodingBuilder()
-                .add("cusName", name)
-                .add("cusUser", username)
-                .add("cusPass", password)
-                .add("cusEmail", email)
-                .build();
-        String response = null;
+
+    public String selectItemCategory() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url("http://" + url + "/newsfeed.php").build(); //http://consolesaleth.esy.es/json/gen_json.php
 
         try {
-            response = http.run("http://" + url + "/Register.php", formBody); //http://10.0.2.2/Webservice/postString.php
-            Log.d("Response : ", response);
+            Response response = okHttpClient.newCall(request).execute();
+
+            //ไว้ใช้ get สินค้าต่างๆ
+
+            if (response.isSuccessful()) {
+                //response สำเร็จเข้า if นี้
+
+                String result = response.body().string();
+                //return result; //ถ้าไม่ทำไปใช้ต่อ return แค่นี้
+
+                //นำค่ามาใช้ GSON
+                Type collectionType = new TypeToken<Collection<DB_ProductResponse>>() {
+                }.getType();
+                Collection<DB_ProductResponse> enums = gson.fromJson(result, collectionType);
+                DB_ProductResponse[] memberResult = enums.toArray(new DB_ProductResponse[enums.size()]);
+
+                return String.valueOf(memberResult[0].getProName()); //test result
+                //return response.body().string();
+            } else {
+                return "Not Success - code : " + response.code();
+            }
         } catch (IOException e) {
-// TODO Auto-generated catch block
             e.printStackTrace();
-        }
-
-        //return response;
-
-        if (response.isEmpty()) {
-            Log.d("Response empty : ", "null");
-            return "register:" + "NotPass:" + response;     //register (type)
-        } else {
-            //ว่าจะใส่ intend ตรงนี้เลย
-            return "register:" + "Pass:" + response; //response;
+            return "Error - " + e.getMessage();
         }
 
     }

@@ -2,6 +2,7 @@ package com.panachai.priceshared;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,14 +10,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
+
 public class NewsfeedFragment extends Fragment {
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    private FragmentActivity myContext; //เดี๋ยวไม่น่าจะได้ใช้ เพราะจะไปใช้ CustomView แทน
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
     public static NewsfeedFragment newInstance() {
         NewsfeedFragment fragment = new NewsfeedFragment();
         return fragment;
@@ -25,40 +28,41 @@ public class NewsfeedFragment extends Fragment {
     public NewsfeedFragment() {
 
     }
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //ใช้ดึงค่า myContext ของ Fragment  //เดี๋ยวไม่น่าจะได้ใช้ เพราะจะไปใช้ CustomView แทน
-    @Override
-    public void onAttach(Activity activity) {
-        myContext=(FragmentActivity) activity;
-        super.onAttach(activity);
-    }
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_newsfeed, container, false);
 
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        //เดี๋ยวไม่น่าจะได้ใช้ เพราะจะไปใช้ CustomView แทน
-        Button btn_one = (Button) rootView.findViewById(R.id.btn_test);
+        String[] str = { "Row 0", "Row 1", "Row 2"
+                , "Row 3", "Row 4", "Row 5" };
 
-        btn_one.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        ListView listView1 = (ListView)rootView.findViewById(R.id.listView1);
+        listView1.setAdapter(new ArrayAdapter(getActivity()
+                , android.R.layout.simple_list_item_1, str));
 
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1
+                    , int arg2, long arg3) {
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.requestWindowFeature
+                        (dialog.getWindow().FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_data);
+                TextView textData =
+                        (TextView)dialog.findViewById(R.id.textData);
+                textData.setText("Select row " + arg2);
 
-                ReviewItemFragment reviewItemFragment = new ReviewItemFragment();
-                FragmentTransaction transaction = myContext.getSupportFragmentManager().beginTransaction();
+                Button buttonOK =
+                        (Button)dialog.findViewById(R.id.buttonOK);
+                buttonOK.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        dialog.cancel();
+                    }
+                });
 
-                transaction.replace(R.id.fragment_container, reviewItemFragment);
-                transaction.addToBackStack(null); //เพื่อให้กด Back แล้วปิด fragment ก่อน
-                transaction.commit();
-
+                dialog.show();
             }
         });
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         return rootView;
     }
