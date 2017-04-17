@@ -30,16 +30,22 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
-    private String resulttype;  //ไว้ใช้ return instand
+    //private String resulttype;  //ไว้ใช้ return instand
+    //private String resultvalue; //ใช้ check ตอนปิด alert
+    private String[] resultsplit;
 
     public DBHelper(Context ctx) {
         context = ctx;
     }
 
+
     @Override
     protected void onPreExecute() {
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Login Status");
+
+        //register EventBus
+        //BusProvider.getInstance().register(this);
 
     }
 
@@ -60,6 +66,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             String email = params[4];
 
             return regisHere(name, username, password, email);
+        } else if (type.equals("selectitem")) {
+            return selectitem();
         } else {
             return null;
         }
@@ -71,30 +79,41 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         alertDialog.setMessage(result);
         alertDialog.show();
 
-        String[] resultsplit = result.split(":");
-        resulttype = resultsplit[0];
+        resultsplit = new String[5];
+        resultsplit = result.split(":");
+
+        Log.d("result ", resultsplit[0]);
+
+        Log.d("size ", ""+resultsplit.length);
+
+        //Log.d("result ", String.valueOf(resultsplit.get(1)));
 
         //ใช้เวลา dialog ขึ้นแล้วกด cancel
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-
-
             public void onCancel(DialogInterface dialog) {
 
-                if (resulttype.equals("register")) {
-                    //to Register
-                    Intent intent = new Intent(context, Login_Activity.class);
-                    context.startActivity(intent);
-                } else if (resulttype.equals("login")) {
+                if (resultsplit[0].equals("register")) {
+                    if (resultsplit[0].equals("pass")) {
+                        //to Register
+                        Intent intent = new Intent(context, Login_Activity.class);
+                        context.startActivity(intent);
+                    }
+
+                } else if (resultsplit[0].equals("login")) {
+                    if (resultsplit[1].equals("pass")) {
                     Log.d("login", "นะจ๊ะ");
                     Intent intent = new Intent(context, MainActivity.class);
                     context.startActivity(intent);
-                }
+                    }
 
-                resulttype = "";    //เคลียร์ค่า type ทุกครั้ง
+                }
 
             }
 
         });
+
+        //unregister EventBus
+        //BusProvider.getInstance().unregister(this);
 
     }
 
@@ -115,7 +134,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             return response.body().string();
         }
     }
-//ไม่ได้ใช้แล้ว ใช้ผ่าน php แทน
+
+    //ไม่ได้ใช้แล้ว ใช้ผ่าน php แทน
     public String md5(String s) {
         try {
             // Create MD5 Hash
@@ -140,7 +160,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         RequestBody formBody = new FormEncodingBuilder()
                 .add("cusUser", name)
                 .add("cusPass", pass)
-                .add("cusType","0")
+                .add("cusType", "0")
                 .build();
         String response = null;
 
@@ -159,7 +179,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             return "login:" + "notPass:" + response;    //login (type)
         } else {
             //ว่าจะใส่ intend ตรงนี้เลย
-            return "login:" + "Pass:" + response; //response;
+            return "login:" + "pass:" + response; //response;
         }
     }
 
@@ -185,16 +205,16 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         if (response.isEmpty()) {
             Log.d("Response empty : ", "null");
-            return "register:" + "NotPass:" + response;     //register (type)
+            return "register:" + "notPass:" + response;     //register (type)
         } else {
             //ว่าจะใส่ intend ตรงนี้เลย
-            return "register:" + "Pass:" + response; //response;
+            return "register:" + "pass:" + response; //response;
         }
 
     }
 
 
-    public String selectItemCategory() {
+    public String selectitem() {
         OkHttpClient okHttpClient = new OkHttpClient();
 
         Request.Builder builder = new Request.Builder();
@@ -217,7 +237,14 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 Collection<DB_ProductResponse> enums = gson.fromJson(result, collectionType);
                 DB_ProductResponse[] memberResult = enums.toArray(new DB_ProductResponse[enums.size()]);
 
-                return String.valueOf(memberResult[0].getProName()); //test result
+                //register EventBus
+                //BusProvider.getInstance().register(this);
+
+                //ส่งข้อมูลไปให้ NewsfeedFragment
+                //BusProvider.getInstance().post(memberResult);
+                //BusProvider.getInstance().post("test send string");
+
+                return "selectitem:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
                 //return response.body().string();
             } else {
                 return "Not Success - code : " + response.code();
