@@ -21,6 +21,7 @@ import com.squareup.otto.Subscribe;
 
 
 public class NewsfeedFragment extends Fragment {
+    private ListView listView1;
 
     public static NewsfeedFragment newInstance() {
         NewsfeedFragment fragment = new NewsfeedFragment();
@@ -48,19 +49,15 @@ public class NewsfeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_newsfeed, container, false);
 
-        String[] str = { "Row 0", "Row 1", "Row 2"
-                , "Row 3", "Row 4", "Row 5" };
+        String[] str = {"Row 0", "Row 1", "Row 2", "Row 3", "Row 4", "Row 5"};
 
-        String type = "selectitem";
+        String type = "selectItem";
+
         DBHelper dbhelper = new DBHelper(getActivity());
         dbhelper.execute(type);
 
+        listView1 = (ListView) rootView.findViewById(R.id.listView1);
 
-
-
-
-
-        ListView listView1 = (ListView)rootView.findViewById(R.id.listView1);
         listView1.setAdapter(new ArrayAdapter(getActivity()
                 , android.R.layout.simple_list_item_1, str));
 
@@ -72,11 +69,11 @@ public class NewsfeedFragment extends Fragment {
                         (dialog.getWindow().FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_data);
                 TextView textData =
-                        (TextView)dialog.findViewById(R.id.textData);
+                        (TextView) dialog.findViewById(R.id.textData);
                 textData.setText("Select row " + arg2);
 
                 Button buttonOK =
-                        (Button)dialog.findViewById(R.id.buttonOK);
+                        (Button) dialog.findViewById(R.id.buttonOK);
                 buttonOK.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         dialog.cancel();
@@ -90,16 +87,16 @@ public class NewsfeedFragment extends Fragment {
         return rootView;
     }
 
-    @Subscribe
-    public void onStringSubscribed(DB_ProductResponse[] data) {
-        Log.d("TEST EventBus : ",data[0].getProName());
-    }
 
     @Subscribe
-    public void onStringSubscribed(String data) {
-        Log.d("TEST EventBus : ",data);
-    }
+    public void onProductResponse(DB_ProductResponse[] data) {
+        Log.d("TEST EventBus db ", data[0].getProName());
+        for (int i = 0; i < data.length; i++) {
+            Log.d("test ",""+data[i].getProName());
+        }
 
+
+    }
 
 
 }

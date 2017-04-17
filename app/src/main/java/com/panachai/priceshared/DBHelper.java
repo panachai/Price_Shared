@@ -34,6 +34,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     //private String resultvalue; //ใช้ check ตอนปิด alert
     private String[] resultsplit;
 
+    //ไว้แก้ ส่ง busprovider ไม่ได้
+    DB_ProductResponse[] productM;
+
     public DBHelper(Context ctx) {
         context = ctx;
     }
@@ -45,8 +48,10 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         alertDialog.setTitle("Login Status");
 
         //register EventBus
-        //BusProvider.getInstance().register(this);
+        BusProvider.getInstance().register(this);
 
+
+        Log.d("onPreExecute : ", "ok 3");
     }
 
     @Override
@@ -66,8 +71,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             String email = params[4];
 
             return regisHere(name, username, password, email);
-        } else if (type.equals("selectitem")) {
-            return selectitem();
+        } else if (type.equals("selectItem")) {
+
+            return selectItem();
         } else {
             return null;
         }
@@ -79,14 +85,13 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         alertDialog.setMessage(result);
         alertDialog.show();
 
+
         resultsplit = new String[5];
         resultsplit = result.split(":");
 
         Log.d("result ", resultsplit[0]);
 
-        Log.d("size ", ""+resultsplit.length);
-
-        //Log.d("result ", String.valueOf(resultsplit.get(1)));
+        Log.d("size ", "" + resultsplit.length);
 
         //ใช้เวลา dialog ขึ้นแล้วกด cancel
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -101,9 +106,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
                 } else if (resultsplit[0].equals("login")) {
                     if (resultsplit[1].equals("pass")) {
-                    Log.d("login", "นะจ๊ะ");
-                    Intent intent = new Intent(context, MainActivity.class);
-                    context.startActivity(intent);
+                        Log.d("login", "นะจ๊ะ");
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
                     }
 
                 }
@@ -114,7 +119,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         //unregister EventBus
         //BusProvider.getInstance().unregister(this);
-
+        sendBusProduct();
     }
 
     @Override
@@ -214,7 +219,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     }
 
 
-    public String selectitem() {
+    public String selectItem() {
         OkHttpClient okHttpClient = new OkHttpClient();
 
         Request.Builder builder = new Request.Builder();
@@ -236,15 +241,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 }.getType();
                 Collection<DB_ProductResponse> enums = gson.fromJson(result, collectionType);
                 DB_ProductResponse[] memberResult = enums.toArray(new DB_ProductResponse[enums.size()]);
-
-                //register EventBus
-                //BusProvider.getInstance().register(this);
-
-                //ส่งข้อมูลไปให้ NewsfeedFragment
-                //BusProvider.getInstance().post(memberResult);
-                //BusProvider.getInstance().post("test send string");
-
-                return "selectitem:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
+                setBusProduct(memberResult);
+                return "selectItem:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
                 //return response.body().string();
             } else {
                 return "Not Success - code : " + response.code();
@@ -253,7 +251,22 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             e.printStackTrace();
             return "Error - " + e.getMessage();
         }
-
     }
+
+    //ใช้กับ selectItemALL
+    public void setBusProduct(DB_ProductResponse[] m) {
+        productM = m;
+    }
+    //ใช้กับ selectItemALL
+    public DB_ProductResponse[] getBusProduct() {
+        return productM;
+    }
+    //ใช้กับ selectItemALL
+    public void sendBusProduct() {
+        //ส่งข้อมูลไปให้ NewsfeedFragment
+        String data = "busevent : complete++++++++++++++++++++++++++++";
+        BusProvider.getInstance().post(getBusProduct());
+    }
+
 
 }
