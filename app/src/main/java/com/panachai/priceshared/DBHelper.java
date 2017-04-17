@@ -108,7 +108,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                         context.startActivity(intent);
                     }
 
-                }else if(resultsplit[0].equals("selectItem")){
+                } else if (resultsplit[0].equals("selectItem")) {
                     sendBusProduct();
                 }
 
@@ -139,26 +139,27 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         }
     }
 
-    //ไม่ได้ใช้แล้ว ใช้ผ่าน php แทน
-    public String md5(String s) {
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+    /*
+        //ไม่ได้ใช้แล้ว ใช้ผ่าน php แทน
+        public String md5(String s) {
+            try {
+                // Create MD5 Hash
+                MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+                digest.update(s.getBytes());
+                byte messageDigest[] = digest.digest();
 
-            // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            return hexString.toString();
+                // Create Hex String
+                StringBuffer hexString = new StringBuffer();
+                for (int i = 0; i < messageDigest.length; i++)
+                    hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+                return hexString.toString();
 
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            return "";
         }
-        return "";
-    }
-
+    */
     public String loginHere(String name, String pass) {
         postHttp http = new postHttp();
         RequestBody formBody = new FormEncodingBuilder()
@@ -256,10 +257,12 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     public void setBusProduct(DB_ProductResponse[] m) {
         productM = m;
     }
+
     //ใช้กับ selectItemALL
     public DB_ProductResponse[] getBusProduct() {
         return productM;
     }
+
     //ใช้กับ selectItemALL
     public void sendBusProduct() {
         //ส่งข้อมูลไปให้ NewsfeedFragment

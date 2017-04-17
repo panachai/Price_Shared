@@ -15,11 +15,13 @@ public class CustomAdapterListview extends BaseAdapter  {//จำนวน Array
     Context mContext;
     String[] strName;
     String[] resId;
+    String[] proDes;
 
-    public CustomAdapterListview(Context context, String[] strName, String[] resId) {
+    public CustomAdapterListview(Context context, String[] strName,String[] proDes, String[] resId) {
         this.mContext= context;
         this.strName = strName;
         this.resId = resId;
+        this.proDes = proDes;
     }
 
     public int getCount() {
@@ -43,6 +45,9 @@ public class CustomAdapterListview extends BaseAdapter  {//จำนวน Array
 
         TextView textView = (TextView)view.findViewById(R.id.textView1);
         textView.setText(strName[position]);
+
+        TextView des = (TextView)view.findViewById(R.id.des);
+        des.setText(proDes[position]);
 
         ImageView imageView = (ImageView)view.findViewById(R.id.imageView1);
 /*        //old
