@@ -22,6 +22,7 @@ import com.squareup.otto.Subscribe;
 
 public class NewsfeedFragment extends Fragment {
     private ListView listView1;
+    private String[] proName;
 
     public static NewsfeedFragment newInstance() {
         NewsfeedFragment fragment = new NewsfeedFragment();
@@ -49,7 +50,7 @@ public class NewsfeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_newsfeed, container, false);
 
-        String[] str = {"Row 0", "Row 1", "Row 2", "Row 3", "Row 4", "Row 5"};
+        //String[] str = {"Row 0", "Row 1", "Row 2", "Row 3", "Row 4", "Row 5"};
 
         String type = "selectItem";
 
@@ -58,8 +59,22 @@ public class NewsfeedFragment extends Fragment {
 
         listView1 = (ListView) rootView.findViewById(R.id.listView1);
 
+        return rootView;
+    }
+
+
+    @Subscribe
+    public void onProductResponse(DB_ProductResponse[] data) {
+        Log.d("TEST EventBus db ", data[0].getProName());
+        proName = new String[data.length];
+        for (int i = 0; i < data.length; i++) {
+            Log.d("test getProName ",""+data[i].getProName());
+            proName[i] = data[i].getProName();
+            Log.d("test proName ",""+proName[i]);
+        }
+
         listView1.setAdapter(new ArrayAdapter(getActivity()
-                , android.R.layout.simple_list_item_1, str));
+                , android.R.layout.simple_list_item_1, proName));
 
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1
@@ -83,17 +98,6 @@ public class NewsfeedFragment extends Fragment {
                 dialog.show();
             }
         });
-
-        return rootView;
-    }
-
-
-    @Subscribe
-    public void onProductResponse(DB_ProductResponse[] data) {
-        Log.d("TEST EventBus db ", data[0].getProName());
-        for (int i = 0; i < data.length; i++) {
-            Log.d("test ",""+data[i].getProName());
-        }
 
 
     }
