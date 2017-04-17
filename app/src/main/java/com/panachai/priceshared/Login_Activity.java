@@ -29,23 +29,11 @@ public class Login_Activity extends AppCompatActivity {
         String password = PasswordEt.getText().toString();
         String type = "login";
 
-        /*
-        Login login = new Login(this);
-        login.execute(type, username, password);*/
-
         DBHelper dbhelper = new DBHelper(this);
         dbhelper.execute(type, username, password);
-
     }
 
     public void OnRegis(View view) {
-        /*
-        String username = UsernameEt.getText().toString();
-        String password = PasswordEt.getText().toString();
-        Register register = new Register(this);
-        register.execute(username, password);
-        */
-
         Intent intent = new Intent(this, Register_Activity.class);
         startActivity(intent);
 

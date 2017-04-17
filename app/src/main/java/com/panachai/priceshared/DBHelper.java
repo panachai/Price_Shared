@@ -40,7 +40,6 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         context = ctx;
     }
 
-
     @Override
     protected void onPreExecute() {
         alertDialog = new AlertDialog.Builder(context).create();
@@ -48,7 +47,6 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         //register EventBus
         BusProvider.getInstance().register(this);
-
 
         Log.d("onPreExecute : ", "ok 3");
     }
@@ -265,7 +263,6 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     //ใช้กับ selectItemALL
     public void sendBusProduct() {
         //ส่งข้อมูลไปให้ NewsfeedFragment
-        String data = "busevent : complete++++++++++++++++++++++++++++";
         BusProvider.getInstance().post(getBusProduct());
     }
 
