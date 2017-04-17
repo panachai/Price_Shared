@@ -21,7 +21,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
-
 public class DBHelper extends AsyncTask<String, Void, String> {
 
     private Context context;
@@ -111,6 +110,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                         context.startActivity(intent);
                     }
 
+                }else if(resultsplit[0].equals("selectItem")){
+                    sendBusProduct();
                 }
 
             }
@@ -119,7 +120,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         //unregister EventBus
         //BusProvider.getInstance().unregister(this);
-        sendBusProduct();
+
     }
 
     @Override
