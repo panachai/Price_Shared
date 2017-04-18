@@ -34,7 +34,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     private String[] resultsplit;
 
     //ไว้แก้ ส่ง busprovider ไม่ได้
-    DB_ProductResponse[] productM;
+    private DB_ProductResponse[] productM;
+    private DB_ProductdetailResponse[] productDR;
+
 
     public DBHelper(Context ctx) {
         context = ctx;
@@ -71,6 +73,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         } else if (type.equals("selectItem")) {
 
             return selectItem();
+        } else if (type.equals("review")) {
+
+            return reviewItem();
         } else {
             return null;
         }
@@ -80,7 +85,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
 
         alertDialog.setMessage(result);
-        alertDialog.show();
+        //alertDialog.show();
 
 
         resultsplit = new String[5];
@@ -88,7 +93,31 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         Log.d("result ", resultsplit[0]);
 
-        Log.d("size ", "" + resultsplit.length);
+        Log.d("size(inPost_DBHelper)", "" + resultsplit.length);
+
+        //---------------TEST-----------
+        if (resultsplit[0].equals("register")) {
+            if (resultsplit[0].equals("pass")) {
+                //to Register
+                Intent intent = new Intent(context, Login_Activity.class);
+                context.startActivity(intent);
+            }
+
+        } else if (resultsplit[0].equals("login")) {
+            if (resultsplit[1].equals("pass")) {
+                Log.d("login", "นะจ๊ะ");
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+
+        } else if (resultsplit[0].equals("selectItem")) {
+            sendBusProduct();
+        } else if (resultsplit[0].equals("review")) {
+            sendBusProductdetail();
+            //Log.d("reviewresult","pass");
+        }
+        //---------------TEST-----------
+
 
         //ใช้เวลา dialog ขึ้นแล้วกด cancel
         alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -110,6 +139,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
                 } else if (resultsplit[0].equals("selectItem")) {
                     sendBusProduct();
+                } else if (resultsplit[0].equals("review")) {
+                    sendBusProductdetail();
                 }
 
             }
@@ -253,20 +284,74 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         }
     }
 
+
+    public String reviewItem() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url("http://" + url + "/itemReview_comment.php").build(); //http://consolesaleth.esy.es/json/gen_json.php
+
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+
+            //ไว้ใช้ get สินค้าต่างๆ
+
+            if (response.isSuccessful()) {
+                //response สำเร็จเข้า if นี้
+
+                String result = response.body().string();
+                //return result; //ถ้าไม่ทำไปใช้ต่อ return แค่นี้
+
+                //นำค่ามาใช้ GSON
+                Type collectionType = new TypeToken<Collection<DB_ProductdetailResponse>>() {
+                }.getType();
+                Collection<DB_ProductdetailResponse> enums = gson.fromJson(result, collectionType);
+
+                DB_ProductdetailResponse[] productdetailResponse = enums.toArray(new DB_ProductdetailResponse[enums.size()]);
+                setBusProductdetail(productdetailResponse);
+                return "review:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
+                //return response.body().string();
+            } else {
+                return "Not Success - code : " + response.code();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error - " + e.getMessage();
+        }
+    }
+
+
     //ใช้กับ selectItemALL
     public void setBusProduct(DB_ProductResponse[] m) {
         productM = m;
     }
-
+/*
     //ใช้กับ selectItemALL
     public DB_ProductResponse[] getBusProduct() {
         return productM;
     }
+*/
 
-    //ใช้กับ selectItemALL
+    //ใช้กับ review (comment) productdetailResponse
+    public void setBusProductdetail(DB_ProductdetailResponse[] m) {
+        productDR = m;
+    }
+
+    //ใช้กับ itemselect
     public void sendBusProduct() {
         //ส่งข้อมูลไปให้ NewsfeedFragment
-        BusProvider.getInstance().post(getBusProduct());
+
+        //DB_ProductResponse
+        BusProvider.getInstance().post(productM);
+
+    }
+
+    //ใช้กับ review
+    public void sendBusProductdetail() {
+
+        //DB_ProductdetailResponse วิ่งไป ReviewItemActivity
+        BusProvider.getInstance().post(productDR);
+        //Log.d("sendBusProductdetail", "pass");
     }
 
 

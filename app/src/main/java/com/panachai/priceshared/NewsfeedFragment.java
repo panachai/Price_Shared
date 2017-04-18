@@ -22,7 +22,7 @@ import com.squareup.otto.Subscribe;
 
 
 public class NewsfeedFragment extends Fragment {
-    public static int[] proID;
+
     private View rootView;
     private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
@@ -69,27 +69,36 @@ public class NewsfeedFragment extends Fragment {
     @Subscribe
     public void onProductResponse(DB_ProductResponse[] data) {
         productReview = data;
-        Log.d("TEST EventBus db ", data[0].getProName());
-        proID = new int[data.length];
-        String[] proName = new String[data.length];
-        String[] img = new String[data.length];
-        String[] proDes = new String[data.length];
+        Log.d("Event Bus","DB_ProductResponse pass");
 
-        for (int i = 0; i < data.length; i++) {
-            Log.d("test getProName ", "" + data[i].getProName());
-            proID[i] = data[i].getProID();
-            proName[i] = data[i].getProName();
-            proDes[i] = data[i].getProDes();
 
-            img[i] = "http://" + url + "/" + data[i].getProDisplay();
+        //Log.d("Event Bus","onDo (int) pass");
+
+
+//productReview
+        int[] proID = new int[productReview.length];
+        String[] proName = new String[productReview.length];
+        String[] img = new String[productReview.length];
+        String[] proDes = new String[productReview.length];
+
+        for (int i = 0; i < productReview.length; i++) {
+            Log.d("test getProName ", "" + productReview[i].getProName());
+            proID[i] = productReview[i].getProID();
+            proName[i] = productReview[i].getProName();
+            proDes[i] = productReview[i].getProDes();
+
+            img[i] = "http://" + url + "/" + productReview[i].getProDisplay();
 
 
             Log.d("test proName ", "" + proName[i]);
         }
 
+
+
+
         ListView listView1 = (ListView) rootView.findViewById(R.id.listView1);
 //--------
-        CustomAdapterListview adapter = new CustomAdapterListview(getActivity(), proName,proDes, img);
+        CustomAdapterListview adapter = new CustomAdapterListview(getActivity(), proName, proDes, img);
 
         listView1.setAdapter(adapter);
 
@@ -108,52 +117,24 @@ public class NewsfeedFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(), ReviewItemActivity.class);
 
-                intent.putExtra("proID",productReview[arg2].getProID());
-                intent.putExtra("proName",productReview[arg2].getProName());
-                intent.putExtra("proDes",productReview[arg2].getProDes());
+                //intent data ReviewItemActivity
+                intent.putExtra("proID", productReview[arg2].getProID());
+                intent.putExtra("proName", productReview[arg2].getProName());
+                intent.putExtra("proDes", productReview[arg2].getProDes());
+                intent.putExtra("proImage", "http://" + url + "/" + productReview[arg2].getProDisplay());
 
-                intent.putExtra("proImage","http://" + url + "/" + productReview[arg2].getProDisplay());
+                //intent data to ReviewItemActivity (Review below)
+
+
                 startActivity(intent);
-/*
-                //old2
-                ReviewItemFragment reviewItemFragment = new ReviewItemFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.fragment_container, reviewItemFragment);
-                transaction.addToBackStack(null); //เพื่อให้กด Back แล้วปิด fragment ก่อน
-                transaction.commit();
-*/
-                Log.d("onItemClick", "2");
-/*
-                //old
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.requestWindowFeature
-                        (dialog.getWindow().FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.dialog_data);
-
-                TextView textData =
-                        (TextView) dialog.findViewById(R.id.textData);
-                textData.setText("Select row " + arg2);
-
-                Button buttonOK =
-                        (Button) dialog.findViewById(R.id.buttonOK);
-                buttonOK.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
-
-                Log.d("onItemClick", "3");
-                dialog.show();
-
-                Log.d("onItemClick", "4");
-
-*/
             }
         });
-
-
     }
+
+
+
+
 
 
 }

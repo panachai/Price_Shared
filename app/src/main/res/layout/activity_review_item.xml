@@ -10,7 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <TableRow
             android:layout_width="match_parent"
@@ -104,16 +106,14 @@
                     android:layout_marginTop="10dp"
                     android:background="#5fff"></LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ListView
+                    android:id="@+id/lvReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="418dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="CustomListView wait to do"
-                    android:textColor="@android:color/holo_orange_light"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
+
+                    android:scrollingCache="false" />
 
 
             </LinearLayout>
