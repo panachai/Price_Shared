@@ -1,6 +1,7 @@
 package com.panachai.priceshared;
 
 import android.content.Context;
+import android.icu.text.DecimalFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,11 +68,13 @@ public class CustomAdapterListviewReview extends BaseAdapter {//จำนวน 
         LayoutInflater mInflater =
                 (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+
+
         if (view == null)
             view = mInflater.inflate(R.layout.listview_row_custom_review, parent, false);
 
         TextView tvprice = (TextView) view.findViewById(R.id.tvPriceReview);
-        tvprice.setText(String.valueOf(proDePrice[position]));
+        tvprice.setText(String.format( "Value of a: %.2f", proDePrice[position] )+"฿");
 Log.d("CustomAdapterReview","proDePrice");
         TextView tvCR = (TextView) view.findViewById(R.id.tvCusnameReview);
         tvCR.setText(String.valueOf(cusID[position]));
