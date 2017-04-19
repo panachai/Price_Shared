@@ -25,7 +25,6 @@ public class ReviewItemActivity extends AppCompatActivity {
     private TextView tvTitle;
     private TextView tvDes;
 
-    private View rootView;
     private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     private DB_ProductdetailResponse[] productdetailReview;
