@@ -337,7 +337,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         productDR = m;
     }
 
-    //ใช้กับ itemselect
+    //ใช้กับ itemselectv newsfeed
     public void sendBusProduct() {
         //ส่งข้อมูลไปให้ NewsfeedFragment
 
