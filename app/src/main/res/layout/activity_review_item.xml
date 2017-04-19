@@ -109,7 +109,7 @@
                 <ListView
                     android:id="@+id/lvReview"
                     android:layout_width="match_parent"
-                    android:layout_height="418dp"
+                    android:layout_height="288dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
 
