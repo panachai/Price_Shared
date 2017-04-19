@@ -107,7 +107,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         } else if (resultsplit[0].equals("login")) {
             if (resultsplit[1].equals("pass")) {
                 Log.d("login", "นะจ๊ะ");
-                Intent intent = new Intent(context, MainActivity.class);
+                Intent intent = new Intent(context, Main2Activity.class);
                 context.startActivity(intent);
             }
 
@@ -134,7 +134,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 } else if (resultsplit[0].equals("login")) {
                     if (resultsplit[1].equals("pass")) {
                         Log.d("login", "นะจ๊ะ");
-                        Intent intent = new Intent(context, MainActivity.class);
+                        Intent intent = new Intent(context, Main2Activity.class);
                         context.startActivity(intent);
                     }
 
