@@ -74,8 +74,9 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
             return selectItem();
         } else if (type.equals("review")) {
+            String proID_use = params[1];
 
-            return reviewItem();
+            return reviewItem(proID_use);
         } else {
             return null;
         }
@@ -86,7 +87,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
         alertDialog.setMessage(result);
         //alertDialog.show();
-
+        Log.d("onPost", result);
 
         resultsplit = new String[5];
         resultsplit = result.split(":");
@@ -170,27 +171,6 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         }
     }
 
-    /*
-        //ไม่ได้ใช้แล้ว ใช้ผ่าน php แทน
-        public String md5(String s) {
-            try {
-                // Create MD5 Hash
-                MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-                digest.update(s.getBytes());
-                byte messageDigest[] = digest.digest();
-
-                // Create Hex String
-                StringBuffer hexString = new StringBuffer();
-                for (int i = 0; i < messageDigest.length; i++)
-                    hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-                return hexString.toString();
-
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-            return "";
-        }
-    */
     public String loginHere(String name, String pass) {
         postHttp http = new postHttp();
         RequestBody formBody = new FormEncodingBuilder()
@@ -200,7 +180,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 .build();
         String response = null;
 
-        System.out.println("pass : " + pass);
+        // System.out.println("pass : " + pass);
 
         try {
             response = http.run("http://" + url + "/check_login.php", formBody); //
@@ -265,6 +245,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 //response สำเร็จเข้า if นี้
 
                 String result = response.body().string();
+                //Log.d("onPost",": "+response);
                 //return result; //ถ้าไม่ทำไปใช้ต่อ return แค่นี้
 
                 //นำค่ามาใช้ GSON
@@ -273,7 +254,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 Collection<DB_ProductResponse> enums = gson.fromJson(result, collectionType);
                 DB_ProductResponse[] memberResult = enums.toArray(new DB_ProductResponse[enums.size()]);
                 setBusProduct(memberResult);
-                return "selectItem:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
+                return "selectItem:" + "pass:"+result; //test result String.valueOf(memberResult[0].getProName())
                 //return response.body().string();
             } else {
                 return "Not Success - code : " + response.code();
@@ -285,35 +266,67 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     }
 
 
-    public String reviewItem() {
-        OkHttpClient okHttpClient = new OkHttpClient();
+    public String reviewItem(String proid) {
 
-        Request.Builder builder = new Request.Builder();
-        Request request = builder.url("http://" + url + "/itemReview_comment.php").build(); //http://consolesaleth.esy.es/json/gen_json.php
+        //post (proid)
+
+
+
+        postHttp http = new postHttp();
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("proID", proid)
+                .build();
+        String response = null;
 
         try {
-            Response response = okHttpClient.newCall(request).execute();
+            Log.d("dbHelper","before");
+            response = http.run("http://" + url + "/itemReview_comment.php", formBody); //http://10.0.2.2/Webservice/postString.php
+            Log.d("dbHelper", response);
+//http://" + url + "/
+
+
+        /*
+        postHttp http = new postHttp();
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("proID", proid)
+                .build();
+        String response = null;
+
+        // System.out.println("pass : " + pass);
+
+        try {
+            //reciver
+            response = http.run("http://" + url + "/itemReview_comment.php", formBody);
+            Log.d("dbHelper","before log");
+Log.d("dbHelper",response);
+        */
+            //OkHttpClient okHttpClient = new OkHttpClient();
+
+            //Request.Builder builder = new Request.Builder();
+            //Request request = builder.url("http://" + url + "/itemReview_comment.php").build(); //http://consolesaleth.esy.es/json/gen_json.php
+
+
+            //Response response = okHttpClient.newCall(request).execute();
 
             //ไว้ใช้ get สินค้าต่างๆ
 
-            if (response.isSuccessful()) {
-                //response สำเร็จเข้า if นี้
+            //response สำเร็จเข้า if นี้
 
-                String result = response.body().string();
-                //return result; //ถ้าไม่ทำไปใช้ต่อ return แค่นี้
+            //String result = response.body().string();
+            //String result = response;
 
-                //นำค่ามาใช้ GSON
-                Type collectionType = new TypeToken<Collection<DB_ProductdetailResponse>>() {
-                }.getType();
-                Collection<DB_ProductdetailResponse> enums = gson.fromJson(result, collectionType);
+            //return result; //ถ้าไม่ทำไปใช้ต่อ return แค่นี้
 
-                DB_ProductdetailResponse[] productdetailResponse = enums.toArray(new DB_ProductdetailResponse[enums.size()]);
-                setBusProductdetail(productdetailResponse);
-                return "review:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
-                //return response.body().string();
-            } else {
-                return "Not Success - code : " + response.code();
-            }
+            //นำค่ามาใช้ GSON
+            Type collectionType = new TypeToken<Collection<DB_ProductdetailResponse>>() {
+            }.getType();
+            Collection<DB_ProductdetailResponse> enums = gson.fromJson(response, collectionType);
+
+            DB_ProductdetailResponse[] productdetailResponse = enums.toArray(new DB_ProductdetailResponse[enums.size()]);
+            setBusProductdetail(productdetailResponse);
+            return "review:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
+            //return response.body().string();
+
         } catch (IOException e) {
             e.printStackTrace();
             return "Error - " + e.getMessage();

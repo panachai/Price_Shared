@@ -58,9 +58,6 @@ public class CustomAdapterListview extends BaseAdapter  {//จำนวน Array
                 .diskCacheStrategy(DiskCacheStrategy.ALL)   //บังคับให้ Glide เซฟรูปทุกขนาด ลง Cache
                 .into(imageView);
 
-
-
-
         return view;
     }
 

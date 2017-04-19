@@ -74,10 +74,10 @@ public class CustomAdapterListviewReview extends BaseAdapter {//จำนวน 
             view = mInflater.inflate(R.layout.listview_row_custom_review, parent, false);
 
         TextView tvprice = (TextView) view.findViewById(R.id.tvPriceReview);
-        tvprice.setText(String.format( "Value of a: %.2f", proDePrice[position] )+"฿");
+        tvprice.setText(String.format( "ราคา %.2f", proDePrice[position] )+"฿");
 Log.d("CustomAdapterReview","proDePrice");
         TextView tvCR = (TextView) view.findViewById(R.id.tvCusnameReview);
-        tvCR.setText(String.valueOf(cusID[position]));
+        tvCR.setText(String.valueOf("by "+cusID[position]));
 Log.d("CustomAdapterReview","cusID");
         TextView des = (TextView) view.findViewById(R.id.tvDesReview);
         des.setText(proDeDes[position]);

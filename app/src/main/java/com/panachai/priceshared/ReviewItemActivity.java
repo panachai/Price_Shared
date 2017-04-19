@@ -55,7 +55,7 @@ public class ReviewItemActivity extends AppCompatActivity {
         String type = "review";
         //เอา proID ส่งไป where ต่อใน db
         DBHelper dbhelper = new DBHelper(this.getApplicationContext());
-        dbhelper.execute(type);
+        dbhelper.execute(type,String.valueOf(proID));
 
         Log.d("ReviewItemActivity","DBHelper pass");
 /*
