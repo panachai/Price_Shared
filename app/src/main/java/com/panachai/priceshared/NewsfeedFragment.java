@@ -93,9 +93,6 @@ public class NewsfeedFragment extends Fragment {
             Log.d("test proName ", "" + proName[i]);
         }
 
-
-
-
         ListView listView1 = (ListView) rootView.findViewById(R.id.listView1);
 //--------
         CustomAdapterListview adapter = new CustomAdapterListview(getActivity(), proName, proDes, img);
@@ -124,7 +121,6 @@ public class NewsfeedFragment extends Fragment {
                 intent.putExtra("proImage", "http://" + url + "/" + productReview[arg2].getProDisplay());
 
                 //intent data to ReviewItemActivity (Review below)
-
 
                 startActivity(intent);
 

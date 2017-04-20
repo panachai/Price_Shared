@@ -31,13 +31,12 @@ public class Login_Activity extends AppCompatActivity {
 
         DBHelper dbhelper = new DBHelper(this);
         dbhelper.execute(type, username, password);
+
     }
 
     public void OnRegis(View view) {
         Intent intent = new Intent(this, Register_Activity.class);
         startActivity(intent);
-
-
     }
 
 }

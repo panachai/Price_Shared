@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
 public class DBHelper extends AsyncTask<String, Void, String> {
+    private final String MY_PREFS = "CustomerLogin";
 
     private Context context;
     private AlertDialog alertDialog;
@@ -36,6 +38,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
     //ไว้แก้ ส่ง busprovider ไม่ได้
     private DB_ProductResponse[] productM;
     private DB_ProductdetailResponse[] productDR;
+    //private DB_CustomerResponse[] customerR;
 
 
     public DBHelper(Context ctx) {
@@ -77,7 +80,29 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             String proID_use = params[1];
 
             return reviewItem(proID_use);
-        } else {
+        }
+
+
+        else if (type.equals("addItem")) {//type, proID,proDePrice ,proDeDes,supDeID,cusID);
+            String proID = params[1];
+            String proDePrice = params[2];
+            String proDeDes = params[3];
+            String supDeID = params[4];
+            String cusID = params[5];
+
+            /*
+            Log.d("proID",proID);
+            Log.d("proDePrice",proDePrice);
+            Log.d("proDeDes",proDeDes);
+            Log.d("supDeID",supDeID);
+            Log.d("cusID",cusID);
+*/
+
+
+            return addReview(proID,proDePrice,proDeDes,supDeID,cusID);
+        }
+
+        else {
             return null;
         }
     }
@@ -116,7 +141,13 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         } else if (resultsplit[0].equals("review")) {
             sendBusProductdetail();
             //Log.d("reviewresult","pass");
+        }else if (resultsplit[0].equals("addItem")){
+            //Log.d("zxcasd","additem onpost");
+            sendBusCustomer();
         }
+
+
+
         //---------------TEST-----------
 
 
@@ -194,7 +225,33 @@ public class DBHelper extends AsyncTask<String, Void, String> {
             Log.d("Response empty : ", "null");
             return "login:" + "notPass:" + response;    //login (type)
         } else {
-            //ว่าจะใส่ intend ตรงนี้เลย
+            //chang value login status
+            SharedPreferences shared = context.getSharedPreferences(MY_PREFS,
+                    Context.MODE_PRIVATE);
+            String result = response;
+
+            //นำค่ามาใช้ GSON
+            Type collectionType = new TypeToken<Collection<DB_CustomerResponse>>() {
+            }.getType();
+            Collection<DB_CustomerResponse> enums = gson.fromJson(result, collectionType);
+            DB_CustomerResponse[] cusResult = enums.toArray(new DB_CustomerResponse[enums.size()]);
+            //setBusCustomer(cusResult);
+
+            String cusID = cusResult[0].getCusID();
+            String cusName = cusResult[0].getCusName();
+            String cusUser = cusResult[0].getCusUser();
+            String cusEmail = cusResult[0].getCusEmail();
+
+            // Save SharedPreferences
+            SharedPreferences.Editor editor = shared.edit();
+            editor.putBoolean("statusLog", true);
+            editor.putString("cusID", cusID);
+            editor.putString("cusName", cusName);
+            editor.putString("cusUser", cusUser);
+            editor.putString("cusEmail", cusEmail);
+
+            editor.apply();
+
             return "login:" + "pass:" + response; //response;
         }
     }
@@ -253,7 +310,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
                 Collection<DB_ProductResponse> enums = gson.fromJson(result, collectionType);
                 DB_ProductResponse[] memberResult = enums.toArray(new DB_ProductResponse[enums.size()]);
                 setBusProduct(memberResult);
-                return "selectItem:" + "pass:"+result; //test result String.valueOf(memberResult[0].getProName())
+                return "selectItem:" + "pass:" + result; //test result String.valueOf(memberResult[0].getProName())
                 //return response.body().string();
             } else {
                 return "Not Success - code : " + response.code();
@@ -274,7 +331,7 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         String response = null;
 
         try {
-            Log.d("dbHelper","before");
+            Log.d("dbHelper", "before");
             response = http.run("http://" + url + "/itemReview_comment.php", formBody); //http://10.0.2.2/Webservice/postString.php
             Log.d("dbHelper", response);
 //http://" + url + "/
@@ -328,16 +385,46 @@ Log.d("dbHelper",response);
         }
     }
 
+//addReview
+    public String addReview(String proID,String proDePrice,String proDeDes,String supDeID,String cusID) {
+        //post (proid)
+
+        postHttp http = new postHttp();
+        RequestBody formBody = new FormEncodingBuilder()
+                .add("proID", proID)
+                .add("proDePrice", proDePrice)
+                .add("proDeDes", proDeDes)
+                .add("supDeID", supDeID)
+                .add("cusID", cusID)
+                .build();
+        String response = null;
+
+        try {
+            Log.d("dbHelper", "before");
+            response = http.run("http://" + url + "/cus_addreview.php", formBody); //http://10.0.2.2/Webservice/postString.php
+            Log.d("dbHelper", response);
+
+        /*
+            //นำค่ามาใช้ GSON
+            Type collectionType = new TypeToken<Collection<DB_ProductdetailResponse>>() {
+            }.getType();
+            Collection<DB_ProductdetailResponse> enums = gson.fromJson(response, collectionType);
+            DB_ProductdetailResponse[] productdetailResponse = enums.toArray(new DB_ProductdetailResponse[enums.size()]);
+            //setBusProductdetail(productdetailResponse);
+        */
+            return "addItem:" + "pass:"; //test result String.valueOf(memberResult[0].getProName())
+            //return response.body().string();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error - " + e.getMessage();
+        }
+    }
+
     //ใช้กับ selectItemALL
     public void setBusProduct(DB_ProductResponse[] m) {
         productM = m;
     }
-/*
-    //ใช้กับ selectItemALL
-    public DB_ProductResponse[] getBusProduct() {
-        return productM;
-    }
-*/
 
     //ใช้กับ review (comment) productdetailResponse
     public void setBusProductdetail(DB_ProductdetailResponse[] m) {
@@ -361,5 +448,23 @@ Log.d("dbHelper",response);
         //Log.d("sendBusProductdetail", "pass");
     }
 
+    public void sendBusCustomer(){
+        //Log.d("zxcasd","sss");
+        int[] s = new int[0];
+        BusProvider.getInstance().post(s);
+    }
+
+    /*
+    //add review
+    public void setBusCustomer(DB_CustomerResponse[] m){
+        customerR = m;
+    }
+
+    //add review
+    public void sendBusCustomer() {
+        //DB_CustomerResponse วิ่งไป AddReview
+        BusProvider.getInstance().post(customerR);
+    }
+*/
 
 }

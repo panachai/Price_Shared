@@ -8,6 +8,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string-array name="kuy">
+        <item>7-11 มหาวิทยาลัยสยาม</item>
+        <item>ssssssss</item>
+        <item>wwwwwwww</item>
+    </string-array>
+
+
     <string name="action_settings">Settings</string>
 
     <!-- <string name="url">10.0.2.2/Webservice</string>  //"10.0.2.2/Webservice" //consolesaleth.esy.es-->

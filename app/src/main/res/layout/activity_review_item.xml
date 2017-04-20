@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-
     android:background="@drawable/bg01"
-    tools:context="com.panachai.priceshared.ReviewItemActivity">
+    android:fitsSystemWindows="true"
+
+    tools:context="com.panachai.priceshared.ReviewItemActivity"
+    tools:openDrawer="start">
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
 
         <TableRow
-            android:paddingTop="55dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingTop="60dp">
 
             <LinearLayout
                 android:layout_width="150dp"
@@ -87,25 +86,14 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/btreview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:background="#12B587"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/review"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="10dp"
-                        android:text="REVIEW"
-                        android:textColor="#fff"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
+                    android:text="REVIEW"
+                    android:textColor="#fff" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,7 +104,7 @@
                 <ListView
                     android:id="@+id/lvReview"
                     android:layout_width="match_parent"
-                    android:layout_height="288dp"
+                    android:layout_height="250dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
 
@@ -127,6 +115,7 @@
         </ScrollView>
 
     </LinearLayout>
+
     <include
         layout="@layout/ham_app_bar_main2"
         android:layout_width="match_parent"
