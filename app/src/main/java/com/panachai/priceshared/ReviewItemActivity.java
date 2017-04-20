@@ -43,7 +43,7 @@ public class ReviewItemActivity extends AppCompatActivity
     private NavigationView navigationView;
     private SharedPreferences shared;
 
-    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
+    private final String url = "consolesaleth.esy.es"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     private DB_ProductdetailResponse[] productdetailReview;
 
@@ -132,7 +132,7 @@ public class ReviewItemActivity extends AppCompatActivity
 
                 intent.putExtra("proID", proID);
                 intent.putExtra("proName", proName);
-                intent.putExtra("proDes", proDes);
+
                 intent.putExtra("image", image);
                 startActivity(intent);
             }

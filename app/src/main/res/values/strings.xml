@@ -17,7 +17,7 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- <string name="url">10.0.2.2/Webservice</string>  //"10.0.2.2/Webservice" //consolesaleth.esy.es-->
+    <string name="urllink">10.0.2.2/Webservice</string>  <!--//"10.0.2.2/Webservice" //consolesaleth.esy.es-->
 
 
     //PriceShared

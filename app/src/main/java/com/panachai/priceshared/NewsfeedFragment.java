@@ -24,7 +24,7 @@ import com.squareup.otto.Subscribe;
 public class NewsfeedFragment extends Fragment {
 
     private View rootView;
-    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
+    private final String url = "consolesaleth.esy.es"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     private DB_ProductResponse[] productReview; //ใช้ตอนโยนค่าข้ามไปยัง activity
 
@@ -93,6 +93,9 @@ public class NewsfeedFragment extends Fragment {
             Log.d("test proName ", "" + proName[i]);
         }
 
+
+
+
         ListView listView1 = (ListView) rootView.findViewById(R.id.listView1);
 //--------
         CustomAdapterListview adapter = new CustomAdapterListview(getActivity(), proName, proDes, img);
@@ -121,6 +124,7 @@ public class NewsfeedFragment extends Fragment {
                 intent.putExtra("proImage", "http://" + url + "/" + productReview[arg2].getProDisplay());
 
                 //intent data to ReviewItemActivity (Review below)
+
 
                 startActivity(intent);
 
