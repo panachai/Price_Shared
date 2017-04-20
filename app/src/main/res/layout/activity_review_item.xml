@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+
     android:background="@drawable/bg01"
     tools:context="com.panachai.priceshared.ReviewItemActivity">
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -15,6 +21,7 @@
         android:layout_alignParentStart="true">
 
         <TableRow
+            android:paddingTop="55dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -120,5 +127,19 @@
         </ScrollView>
 
     </LinearLayout>
+    <include
+        layout="@layout/ham_app_bar_main2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/ham_nav_header_main2"
+        app:menu="@menu/activity_main2_drawer" />
+
+
+</android.support.v4.widget.DrawerLayout>
