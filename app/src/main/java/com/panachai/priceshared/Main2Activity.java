@@ -49,6 +49,8 @@ public class Main2Activity extends AppCompatActivity
         adapter = new MyPagerAdapter(getSupportFragmentManager());
         pager = (ViewPager) findViewById(R.id.pager);//ทำ view pager
         pager.setAdapter(adapter);
+
+
     }
 
     @Override

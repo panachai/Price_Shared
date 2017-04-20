@@ -17,9 +17,11 @@ public class CustomAdapterListviewReview extends BaseAdapter {//จำนวน 
     Context mContext;
     double[] proDePrice;
     String[] proDeDes;
-    int[] supDeID;
-    int[] cusID;
+
     String[] proDeDate;
+
+    String[] supDeDes;
+    String[] cusName;
 
     /*รอแก้ class
     proDePrice+
@@ -34,21 +36,22 @@ public class CustomAdapterListviewReview extends BaseAdapter {//จำนวน 
      * proID : 00000000001
      * proDePrice : 27000       +
      * proDeDes : ลดราคาจาก 32000 เหลือ 27000   +
-     * supDeID : 00000000001            +
-     * cusID : 00000000010          +
+     * //supDeID : 00000000001            +
+     * //cusID : 00000000010          +
      * proDeScore : 5
      * proDeDate : 2017-04-15       +
      * proDeStatus : 0
      */
 
 
-    public CustomAdapterListviewReview(Context context, double[] proDePrice, String[] proDeDes, int[] supDeID, int[] cusID, String[] proDeDate) {
+    public CustomAdapterListviewReview(Context context, double[] proDePrice,
+                                       String[] proDeDes, String[] supDeDes, String[] cusName, String[] proDeDate) {
         this.mContext = context;
 
         this.proDePrice = proDePrice;
         this.proDeDes = proDeDes;
-        this.supDeID = supDeID;
-        this.cusID = cusID;
+        this.supDeDes = supDeDes;
+        this.cusName = cusName;
         this.proDeDate = proDeDate;
     }
 
@@ -77,14 +80,14 @@ public class CustomAdapterListviewReview extends BaseAdapter {//จำนวน 
         tvprice.setText(String.format( "ราคา %.2f", proDePrice[position] )+"฿");
 Log.d("CustomAdapterReview","proDePrice");
         TextView tvCR = (TextView) view.findViewById(R.id.tvCusnameReview);
-        tvCR.setText(String.valueOf("by "+cusID[position]));
-Log.d("CustomAdapterReview","cusID");
+        tvCR.setText(String.valueOf("by "+cusName[position]));
+Log.d("CustomAdapterReview","cusName");
         TextView des = (TextView) view.findViewById(R.id.tvDesReview);
         des.setText(proDeDes[position]);
 Log.d("CustomAdapterReview","proDeDes");
         TextView supname = (TextView) view.findViewById(R.id.tvSupName);
-        supname.setText(String.valueOf(supDeID[position]));
-Log.d("CustomAdapterReview","supDeID");
+        supname.setText(String.valueOf(supDeDes[position]));
+Log.d("CustomAdapterReview","supDeDes");
         TextView datereview = (TextView) view.findViewById(R.id.tvDate);
         datereview.setText(String.valueOf(proDeDate[position]));
 Log.d("CustomAdapterReview","proDeDate");

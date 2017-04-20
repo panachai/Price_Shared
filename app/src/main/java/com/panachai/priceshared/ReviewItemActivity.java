@@ -76,21 +76,7 @@ public class ReviewItemActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)   //บังคับให้ Glide เซฟรูปทุกขนาด ลง Cache
                 .into(imageView);
 
-/*
-
-//----------------------------------------
-//Review part
-        //review (tvReview)
-        ListView LVReview = (ListView) findViewById(R.id.lvReview);
-
-        CustomAdapterListviewReview adapter = new CustomAdapterListviewReview(this.getApplicationContext(), proName,proDes);
-
-        LVReview.setAdapter(adapter);
-//----------------------------------------
-*/
-
     }
-
 
     @Subscribe
     public void onProductResponse(DB_ProductdetailResponse[] dataDetail) {
@@ -101,8 +87,10 @@ public class ReviewItemActivity extends AppCompatActivity {
 
         double[] proDePrice = new double[productdetailReview.length];
         String[] proDeDes = new String[productdetailReview.length];
-        int[] supDeID = new int[productdetailReview.length];
-        int[] cusID = new int[productdetailReview.length];
+
+        String[] supDeDes = new String[productdetailReview.length];
+        String[] cusName = new String[productdetailReview.length];
+
         String[] proDeDate = new String[productdetailReview.length];
         Log.d("ReviewItemActivity","set variable pass");
 
@@ -110,8 +98,8 @@ public class ReviewItemActivity extends AppCompatActivity {
             Log.d("ReviewItemActivity","in for");
             proDePrice[i] = productdetailReview[i].getProDePrice();
             proDeDes[i] = productdetailReview[i].getProDeDes();
-            supDeID[i] = productdetailReview[i].getSupDeID();
-            cusID[i] = productdetailReview[i].getCusID();
+            supDeDes[i] = productdetailReview[i].getSupDeDes();
+            cusName[i] = productdetailReview[i].getCusName();
             proDeDate[i] = productdetailReview[i].getProDeDate();
 
         }
@@ -120,39 +108,12 @@ public class ReviewItemActivity extends AppCompatActivity {
         Log.d("ReviewItemActivity","after listview");
 //--------
         CustomAdapterListviewReview adapter = new CustomAdapterListviewReview
-                (this.getApplicationContext(), proDePrice, proDeDes, supDeID,cusID,proDeDate);//แก้ตรงนี้
+                (this.getApplicationContext(), proDePrice, proDeDes, supDeDes,cusName,proDeDate);//แก้ตรงนี้
 
         listView.setAdapter(adapter);
         Log.d("ReviewItemActivity","setAdapter");
 //--------
 
-/*
-        listView.setAdapter(new ArrayAdapter(this
-                , android.R.layout.simple_list_item_1, proName));
-*/
 
-/*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1
-                    , int arg2, long arg3) {
-
-                Log.d("onItemClick", "1");
-
-                Intent intent = new Intent(this, ReviewItemActivity.class);
-
-                //intent data ReviewItemActivity
-                intent.putExtra("proID", productReview[arg2].getProID());
-                intent.putExtra("proName", productReview[arg2].getProName());
-                intent.putExtra("proDes", productReview[arg2].getProDes());
-                intent.putExtra("proImage", "http://" + url + "/" + productReview[arg2].getProDisplay());
-
-                //intent data to ReviewItemActivity (Review below)
-
-
-                startActivity(intent);
-
-            }
-        });
-*/
     }
 }

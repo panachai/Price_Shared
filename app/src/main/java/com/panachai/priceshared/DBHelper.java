@@ -229,7 +229,6 @@ public class DBHelper extends AsyncTask<String, Void, String> {
 
     }
 
-
     public String selectItem() {
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -265,12 +264,8 @@ public class DBHelper extends AsyncTask<String, Void, String> {
         }
     }
 
-
     public String reviewItem(String proid) {
-
         //post (proid)
-
-
 
         postHttp http = new postHttp();
         RequestBody formBody = new FormEncodingBuilder()
@@ -332,7 +327,6 @@ Log.d("dbHelper",response);
             return "Error - " + e.getMessage();
         }
     }
-
 
     //ใช้กับ selectItemALL
     public void setBusProduct(DB_ProductResponse[] m) {

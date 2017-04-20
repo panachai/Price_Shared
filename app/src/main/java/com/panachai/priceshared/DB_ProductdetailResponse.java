@@ -17,6 +17,9 @@ public class DB_ProductdetailResponse {
      * proDeScore : 5
      * proDeDate : 2017-04-15
      * proDeStatus : 0
+     * <p>
+     * cusName : admin
+     * supDeDes : 7-11
      */
 
     private int proDeID;
@@ -28,6 +31,8 @@ public class DB_ProductdetailResponse {
     private float proDeScore;
     private String proDeDate;
     private String proDeStatus;
+    private String cusName;
+    private String supDeDes;
 
     public int getProDeID() {
         return proDeID;
@@ -100,4 +105,22 @@ public class DB_ProductdetailResponse {
     public void setProDeStatus(String proDeStatus) {
         this.proDeStatus = proDeStatus;
     }
+
+    public String getCusName() {
+        return cusName;
+    }
+
+    public void setCusName(String cusName) {
+        this.cusName = cusName;
+    }
+
+    public String getSupDeDes() {
+        return supDeDes;
+    }
+
+    public void setSupDeDes(String supDeDes) {
+        this.supDeDes = supDeDes;
+    }
+
+
 }
