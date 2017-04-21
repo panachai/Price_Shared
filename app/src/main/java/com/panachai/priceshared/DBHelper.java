@@ -23,13 +23,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
 public class DBHelper extends AsyncTask<String, Void, String> {
+
+    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
+
     private final String MY_PREFS = "CustomerLogin";
 
     private Context context;
     private AlertDialog alertDialog;
     private Gson gson = new Gson();
     private final OkHttpClient okHttpClient = new OkHttpClient();
-    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     //private String resulttype;  //ไว้ใช้ return instand
     //private String resultvalue; //ใช้ check ตอนปิด alert

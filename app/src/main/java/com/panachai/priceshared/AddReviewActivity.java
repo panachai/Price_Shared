@@ -29,7 +29,6 @@ public class AddReviewActivity extends AppCompatActivity {
     //ค่าส่งไป database;
     private String proDePrice, proDeDes, supDeName, cusID, supDeID;
 
-
     private SharedPreferences shared;
 
     @Override
@@ -57,10 +56,6 @@ public class AddReviewActivity extends AppCompatActivity {
         String proName = getIntent().getStringExtra("proName");
         String image = getIntent().getStringExtra("image");
         String proDes = getIntent().getStringExtra("proDes");
-
-
-
-
 
         //set header
         ImageView display = (ImageView) findViewById(R.id.imageView1);
@@ -106,11 +101,11 @@ public class AddReviewActivity extends AppCompatActivity {
         String type = "addItem";
         DBHelper dbhelper = new DBHelper(this.getApplicationContext());
         dbhelper.execute(type, String.valueOf(proID), proDePrice, proDeDes, supDeID, cusID);
-        Log.d("proID",""+proID);
-        Log.d("proDePrice",proDePrice);
-        Log.d("proDeDes",proDeDes);
-        Log.d("supDeID",supDeID);
-        Log.d("cusID",cusID);
+        Log.d("Add-proID",""+proID);
+        Log.d("Add-proDePrice",proDePrice);
+        Log.d("Add-proDeDes",proDeDes);
+        Log.d("Add-supDeID",supDeID);
+        Log.d("Add-cusID",cusID);
     }
 
     /**
