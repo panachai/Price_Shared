@@ -29,7 +29,7 @@ import com.squareup.otto.Subscribe;
 public class ReviewItemActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
+    private final String url = "10.255.8.249/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     private int proID;
     private String proName;

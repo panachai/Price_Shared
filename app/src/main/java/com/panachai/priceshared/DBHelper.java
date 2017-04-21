@@ -24,7 +24,7 @@ import java.util.Collection;
 
 public class DBHelper extends AsyncTask<String, Void, String> {
 
-    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
+    private final String url = "10.255.8.249/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     private final String MY_PREFS = "CustomerLogin";
 
