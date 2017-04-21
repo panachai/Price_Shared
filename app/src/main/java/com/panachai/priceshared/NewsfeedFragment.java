@@ -24,7 +24,7 @@ import com.squareup.otto.Subscribe;
 public class NewsfeedFragment extends Fragment {
 
     private View rootView;
-    private final String url = "consolesaleth.esy.es"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
+    private final String url = "10.0.2.2/Webservice"; //"10.0.2.2/Webservice" //consolesaleth.esy.es
 
     private DB_ProductResponse[] productReview; //ใช้ตอนโยนค่าข้ามไปยัง activity
 
